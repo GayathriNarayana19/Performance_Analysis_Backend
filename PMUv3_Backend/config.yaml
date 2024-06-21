@@ -1,0 +1,64 @@
+base_dirs:
+  - path: '/home/ubuntu/backend_plot_test_csvs/N1/'
+    output_file: 'n1_du_metrics.csv'
+  - path: '/home/ubuntu/backend_plot_test_csvs/G2/'
+    output_file: 'g2_du_metrics.csv'
+  - path: '/home/ubuntu/backend_plot_test_csvs/G3/'
+    output_file: 'g3_du_metrics.csv'
+output_dir: '/home/ubuntu/test_plotting/'
+base_filename: 'bundle{}.csv'
+num_bundles: 15
+scenarios:
+  - 'N1: 3GHz'
+  - 'G2: 2.5GHz'
+  - 'G3: 2.6GHz'
+context: 'DUHIGH'
+
+#########DO NOT MODIFY BELOW THIS LINE##########
+kpi_metrics:
+  - - ['L1_I-cache_MPKI', ['L1I_CACHE_REFILL', 'INST_RETIRED']]
+    - ['I-side_page_table_MPKI', ['ITLB_WALK', 'INST_RETIRED']]
+    - ['L2_cache_MPKI', ['L2D_CACHE_REFILL', 'INST_RETIRED']]
+    - ['Branch_MPKI', ['BR_MIS_PRED_RETIRED', 'INST_RETIRED']]
+    - ['D-side_page_table_MPKI', ['DTLB_WALK', 'INST_RETIRED']]
+    - ['L1_D-cache_MPKI', ['L1D_CACHE_REFILL', 'INST_RETIRED']]
+    - ['LLC_cache_MPKI', ['LL_CACHE_MISS_RD', 'INST_RETIRED']]
+  - - ['L1_data_TLB_read_miss_rate', ['L1D_TLB_REFILL_RD', 'L1D_TLB_RD']]
+    - ['L2_TLB_miss_rate', ['L2D_TLB_REFILL', 'L2D_TLB']]
+    - ['L2_TLB_write_miss_rate', ['L2D_TLB_REFILL_WR', 'L2D_TLB_WR']]
+    - ['L2_TLB_read_miss_rate', ['L2D_TLB_REFILL_RD', 'L2D_TLB_RD']]
+    - ['L1_data_TLB_miss_rate', ['L1D_TLB_REFILL', 'L1D_TLB']]
+    - ['L1_instruction_TLB_miss_rate', ['L1I_TLB_REFILL', 'L1I_TLB']]
+    - ['L1_data_TLB_write_miss_rate', ['L1D_TLB_REFILL_WR', 'L1D_TLB_WR']]
+  - - ['L1_D-cache_read_miss_rate', ['L1D_CACHE_REFILL_RD', 'L1D_CACHE_RD']]
+    - ['L1_D-cache_write_miss_rate', ['L1D_CACHE_REFILL_WR', 'L1D_CACHE_WR']]
+    - ['L1_D-cache_miss_rate', ['L1D_CACHE_REFILL', 'L1D_CACHE']]
+    - ['L1_I-cache_miss_rate', ['L1I_CACHE_REFILL', 'L1I_CACHE']]
+    - ['L2_cache_miss_rate', ['L2D_CACHE_REFILL', 'L2D_CACHE']]
+    - ['L1_D-cache_rate_of_cache_misses_in_L1_and_L2', ['L1D_CACHE_REFILL_OUTER', 'L1D_CACHE_REFILL']]
+  - - ['Front_end_stall_rate', ['STALL_FRONTEND', 'CPU_CYCLES']]
+    - ['Back_end_stall_rate', ['STALL_BACKEND', 'CPU_CYCLES']]
+  - - ['Speculatively_executed_IPC', ['INST_SPEC', 'CPU_CYCLES']]
+    - ['Architecturally_executed_IPC', ['INST_RETIRED', 'CPU_CYCLES']]
+  - - ['VFP_instruction_rate_per_instructions', ['VFP_SPEC', 'INST_SPEC']]
+    - ['DMB_rate_per_instructions', ['DMB_SPEC', 'INST_SPEC']]
+    - ['DP_instruction_rate_per_instructions', ['DP_SPEC', 'INST_SPEC']]
+    - ['ISB_rate_per_instructions', ['ISB_SPEC', 'INST_SPEC']]
+    - ['CRYPTO_instruction_rate_per_instructions', ['CRYPTO_SPEC', 'INST_SPEC']]
+    - ['PC_WRITE_instruction_rate_per_instructions', ['PC_WRITE_SPEC', 'INST_SPEC']]
+    - ['SIMD_instruction_rate_per_instructions', ['ASE_SPEC', 'INST_SPEC']]
+    - ['BR_IMMED_instruction_rate_per_instructions', ['BR_IMMED_SPEC', 'INST_SPEC']]
+    - ['ST_instruction_rate_per_instructions', ['ST_SPEC', 'INST_SPEC']]
+    - ['BR_RETURN_instruction_rate_per_instructions', ['BR_RETURN_SPEC', 'INST_SPEC']]
+    - ['DSB_rate_per_instructions', ['DSB_SPEC', 'INST_SPEC']]
+    - ['LD_instruction_rate_per_instructions', ['LD_SPEC', 'INST_SPEC']]
+    - ['BR_INDIRECT_instruction_rate_per_instructions', ['BR_INDIRECT_SPEC', 'INST_SPEC']]
+    - ['Exception_rate_per_instructions', ['EXC_TAKEN', 'INST_RETIRED']]
+
+kpi_file_groups:
+  - ["bundle11.csv", "bundle12.csv"]
+  - ["bundle0.csv", "bundle1.csv", "bundle7.csv", "bundle10.csv"]
+  - ["bundle5.csv", "bundle6.csv", "bundle13.csv"]
+  - ["bundle4.csv"]
+  - ["bundle8.csv"]
+  - ["bundle8.csv", "bundle9.csv", "bundle14.csv"]
