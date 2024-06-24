@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import argparse
 import os
+from PIL import Image
 
 '''#Hardcoded here, will be given as inputs in cmdline later
 data = []
@@ -206,6 +207,8 @@ def filter_and_plot(key_string, plot_num, data, output_dir, scenario, context):
     plt.figure(plot_num)
     if key_string == 'miss':
         fig, ax = plt.subplots(figsize=(20, 16))
+#    elif key_string == 'rate_per_instruction': #will change if limit/ y axis labels are messed. 
+ #       fig, ax = plt.subplots(figsize=(32,24))
     else:
         fig, ax = plt.subplots(figsize=(16, 12))
 
@@ -287,6 +290,9 @@ def filter_and_plot(key_string, plot_num, data, output_dir, scenario, context):
     if key_string == 'rate_per_instruction':
         ax.set_xlim(0, 40)  # xlim for horizontal chart
         ax.xaxis.set_major_locator(plt.MultipleLocator(2.5))
+        #for label in ax.get_yticklabels():
+         # label.set_rotation(0)
+         # label.set_horizontalalignment('right')
 
     if key_string == 'read_rate|write_rate':
         ax.set_xlim(0, 75)  # xlim for horizontal chart
@@ -303,6 +309,8 @@ def filter_and_plot(key_string, plot_num, data, output_dir, scenario, context):
         ax.annotate(f'{diff:.2f}%', (annotate_x, indices[i]), va='center', fontsize=14)
 '''
     ax.legend()
+    
+#    plt.tight_layout(rect=[0.2, 0, 1, 1])  # Adjust left margin if needed
     custom_legend = ax.legend(loc='upper right', title="Cores")
     ax.add_artist(custom_legend)
     plt.tight_layout()
@@ -416,19 +424,51 @@ def filter_and_plot_Name_1(key_strings, plot_num, data, output_dir, scenario, co
       #plt.show()
  #   plt.tight_layout()
  #   plt.show()
+def merge_pngs_to_pdf(input_dir, output_file):
+    # Check if the input directory exists
+    if not os.path.exists(input_dir):
+        print(f"Error: The input directory '{input_dir}' does not exist.")
+        sys.exit(1)
+    
+    # List and sort PNG files
+    png_files = [f for f in os.listdir(input_dir) if f.lower().endswith('.png')]
+    png_files.sort()
+    
+    if not png_files:
+        print(f"Error: No PNG files found in the directory '{input_dir}'.")
+        sys.exit(1)
+    
+    # Load and convert images to RGB
+    images = []
+    for png_file in png_files:
+        png_path = os.path.join(input_dir, png_file)
+        try:
+            image = Image.open(png_path).convert('RGB')
+            images.append(image)
+        except Exception as e:
+            print(f"Error processing '{png_path}': {e}")
+            sys.exit(1)
+    
+    # Save images as a single PDF
+    try:
+        images[0].save(output_file, save_all=True, append_images=images[1:])
+        print(f"Successfully created the PDF '{output_file}'")
+    except Exception as e:
+        print(f"Error saving the PDF to '{output_file}': {e}")
+        sys.exit(1) 
 
 def main():
-    usage = ("plotting_pmu.py --csv /path_to_csv/CSV1 /path_to_csv/CSV2 -o /dir_path_for_output_plots/ -s Scenario_for_CSV1 Scenario_for_CSV2 -c CSV1_CSV2_COMPARISON\n"
-    "Enter 'python3 plotting_pmu.py -h' to know the description for arguments -o, -s and -c")
+    usage = ("plotting_perf_stat.py --csv /path_to_csv/CSV1 /path_to_csv/CSV2 -o /dir_path_for_output_plots/ -s Scenario_for_CSV1 Scenario_for_CSV2 -c CSV1_CSV2_COMPARISON\n"
+    "Enter 'python3 plotting_perf_stat.py -h' to know the description for arguments -o, -s and -c")
     parser = argparse.ArgumentParser(usage=usage, description="Process some CSV files and generate plots.")
     #parser = argparse.ArgumentParser()
     parser.add_argument("--csv_files", "-csv", nargs="+", type=str, help="Path to the CSV file")
     parser.add_argument("--op_dir", "-o", type=str, help="Path to the directory to store the plots")
-    parser.add_argument("--scenario", "-s", type=str, nargs="+", default=["Core1", "Core2"], help="Custom Scenarios (default: Core1, Core2)")
+    parser.add_argument("--scenario", "-s", type=str, nargs="+", help="Custom Scenarios (default: Core1, Core2)")
     parser.add_argument("--context", "-c", type=str, help="Specify context - This will appear as 'title' in output plot")
     #parser.add_argument("--cores", "-c", type=str, nargs="+", help="Custom Scenarios (default: [3UE, 16UE, 32UE, 64UE, 128UE])")
     args = parser.parse_args()
-    print(args)
+    #print(args)
     if not args.csv_files:
         parser.error("Please provide the path to the CSV file using --csv_file or -csv")
     if not args.op_dir:
@@ -473,6 +513,7 @@ def main():
     filter_and_plot_Name_1(['EXC_TAKEN','CACHE_MISS'], 20, data, args.op_dir, args.scenario, args.context)
       #plot_number = plot_number + 1
       #data_per_core = []
-
+    output_pdf_path = os.path.join(args.op_dir, 'merged_output.pdf')
+    merge_pngs_to_pdf(args.op_dir, output_pdf_path)
 if __name__ == '__main__':
     main()
