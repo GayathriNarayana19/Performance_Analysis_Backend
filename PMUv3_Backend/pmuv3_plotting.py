@@ -120,7 +120,7 @@ def calculate_percentage_difference(max_vals, min_vals):
     return percentage_differences
 
 #Include only metrics containing "miss" but not "TLB" in it as a keyword/keystring
-def filter_and_plot_miss(plot_num, data, output_dir, scenario, context):
+def filter_and_plot_miss(plot_num, data, output_dir, scenario, title):
     filtered_data = [df[df['Metrics'].str.contains('miss') & ~df['Metrics'].str.contains('TLB')] for df in data]
 
     for df in filtered_data:
@@ -173,7 +173,7 @@ def filter_and_plot_miss(plot_num, data, output_dir, scenario, context):
 
         metric_names.append(metric_name)
 
-    formatted_title = f'Bar Plot for "miss" Metrics (Excluding "TLB")- {context}'
+    formatted_title = f'Bar Plot for "miss" Metrics (Excluding "TLB")- {title}'
     ax.set_ylabel('Metrics', fontsize=14)
     ax.set_xlabel('Rate in Percentage', fontsize=14)
     ax.set_title(formatted_title,fontsize=16)
@@ -203,7 +203,7 @@ def filter_and_plot_miss(plot_num, data, output_dir, scenario, context):
     plt.close(fig)
     
 # Include only metrics containing "TLB" but not "context_swap"
-def filter_and_plot_tlb(plot_num, data, output_dir, scenario, context):
+def filter_and_plot_tlb(plot_num, data, output_dir, scenario, title):
     # Include only metrics containing "TLB"
     #filtered_data = [df[df['Metrics'].str.contains('TLB')] for df in data]
     
@@ -256,7 +256,7 @@ def filter_and_plot_tlb(plot_num, data, output_dir, scenario, context):
                 min_values[j] = value
         metric_names.append(metric_name)
 
-    formatted_title = f'Bar Plot for "TLB" Metrics - {context}'
+    formatted_title = f'Bar Plot for "TLB" Metrics - {title}'
     ax.set_ylabel('Metrics', fontsize=14)
     ax.set_xlabel('Rate in Percentage', fontsize=14)
     ax.set_title(formatted_title, fontsize=16)
@@ -279,7 +279,7 @@ def filter_and_plot_tlb(plot_num, data, output_dir, scenario, context):
     plt.close(fig)
     
 # Include only metrics containing "rate_per_instruction"
-def filter_and_plot(key_string, plot_num, data, output_dir, scenario, context):
+def filter_and_plot(key_string, plot_num, data, output_dir, scenario, title):
    
     filtered_data = [df[df['Metrics'].str.contains(key_string)] for df in data]
     #To not throw an error if the metric is not present in csv. May be applicable for N2.
@@ -352,7 +352,7 @@ def filter_and_plot(key_string, plot_num, data, output_dir, scenario, context):
 
         metric_names.append(metric_name)
 
-    formatted_title = f'Bar Plot for Metrics with "{key_string}" - {context}'
+    formatted_title = f'Bar Plot for Metrics with "{key_string}" - {title}'
     ax.set_ylabel('Metrics', fontsize=14)
     if key_string == 'MPKI':
         ax.set_xlabel('MPKI', fontsize=14)
@@ -459,13 +459,13 @@ def main():
     kpi_file_groups = config["kpi_file_groups"]
     kpi_metrics = config["kpi_metrics"]
     scenarios = config["scenarios"]
-    context = config["context"]
+    title = config["title"]
 
     if len(base_dirs) != len(scenarios):
         print("ERROR: Scenarios must be same as number of output files")
         exit()
     
-    if not base_dirs or not output_dir or not base_filename or num_bundles is None or context is None:
+    if not base_dirs or not output_dir or not base_filename or num_bundles is None or title is None:
         parser.error('Missing required arguments in the configuration file.')
     
     merged_dfs = []
@@ -486,7 +486,7 @@ def main():
         merged_df = pd.concat(dfs, axis=1)
         merged_dfs.append(merged_df)
         bundles_cols.append(dfs[0].columns)
-    
+        
     #Plot events graph
     for bundle_num, merged_df in enumerate(merged_dfs):
         bundle_cols = bundles_cols[bundle_num]
@@ -499,7 +499,7 @@ def main():
             os.makedirs(output_dir)
         plt.savefig(f'{output_dir}bundle{bundle_num}.pdf')
         #plt.show()
-        plt.close(fig)   
+        plt.close(fig)
     
     #Make list of files to parse to compute KPI
     kpi_files_list = create_full_paths(base_dirs, kpi_file_groups)
@@ -525,13 +525,13 @@ def main():
         #n_kpi_metrics_df = pd.concat([n_kpi_metrics_df, instance_kpi_metrics_df], ignore_index=True)
     
     #Plot KPIs
-    filter_and_plot('rate_per_instruction', 1, kpi_metrics_data, output_dir, scenarios, context)
-    filter_and_plot('MPKI', 2, kpi_metrics_data, output_dir, scenarios, context)
-    filter_and_plot('IPC', 3, kpi_metrics_data, output_dir, scenarios, context)
-    filter_and_plot('stall_rate', 4, kpi_metrics_data, output_dir, scenarios, context)
+    filter_and_plot('rate_per_instruction', 1, kpi_metrics_data, output_dir, scenarios, title)
+    filter_and_plot('MPKI', 2, kpi_metrics_data, output_dir, scenarios, title)
+    filter_and_plot('IPC', 3, kpi_metrics_data, output_dir, scenarios, title)
+    filter_and_plot('stall_rate', 4, kpi_metrics_data, output_dir, scenarios, title)
 
-    filter_and_plot_miss("1m", kpi_metrics_data, output_dir, scenarios, context)
-    filter_and_plot_tlb("2t", kpi_metrics_data, output_dir, scenarios, context)
+    filter_and_plot_miss("1m", kpi_metrics_data, output_dir, scenarios, title)
+    filter_and_plot_tlb("2t", kpi_metrics_data, output_dir, scenarios, title)
     output_pdf_path = os.path.join(output_dir, 'merged_output.pdf')
     merge_pdfs(output_dir, output_pdf_path) 
     
