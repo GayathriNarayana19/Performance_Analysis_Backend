@@ -1,4 +1,4 @@
-REQUIREMENTS
+**REQUIREMENTS**
 
 sudo apt install python-is-python3 python3-pip python3-venv -y
 
@@ -7,10 +7,10 @@ source venv/bin/activate
 
 pip install pandas pyyaml matplotlib PyPDF2
 
-STEPS TO EXECUTE
+**STEPS TO EXECUTE**
 python3 pmuv3_plotting.py -config config.yaml
 
-SAMPLE RUN
+**SAMPLE RUN**
 You have a sample "bundles" folder. You can try running that as follows with config_test.yaml to get a hang of how this works. Later feel free to edit config.yaml
 according to you project needs. 
 
@@ -26,7 +26,7 @@ python3 pmuv3_plotting.py -config config_test.yaml
 
 The outputs will get stored in the directory path you mention. You can give the name of the desired dir in the config.yaml and it does the creation itself. In this sample run, only Section 1 has been plotted. 
 
-ADDITIONAL USEFUL INFORMATION FOR UNDERSTANDING
+**ADDITIONAL USEFUL INFORMATION FOR UNDERSTANDING**
 
 If you would like to compare Section 1 context/code block on different processors like N1 and V1, you can do that as well. In such a scenario, if you named the directory as N1_bundle and V1_bundle, you would run, 
 
