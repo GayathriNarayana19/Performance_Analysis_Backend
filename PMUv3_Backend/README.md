@@ -8,9 +8,11 @@ source venv/bin/activate
 pip install pandas pyyaml matplotlib PyPDF2
 
 **STEPS TO EXECUTE**
+
 python3 pmuv3_plotting.py -config config.yaml
 
 **SAMPLE RUN**
+
 You have a sample "bundles" folder. You can try running that as follows with config_test.yaml to get a hang of how this works. Later feel free to edit config.yaml
 according to you project needs. 
 
