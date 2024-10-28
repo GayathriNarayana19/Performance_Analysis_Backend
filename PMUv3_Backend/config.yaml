@@ -12,7 +12,7 @@ scenarios:
   - 'N1: 3GHz'
   - 'G2: 2.5GHz'
   - 'G3: 2.6GHz'
-context: 'DUHIGH'
+title: 'DUHIGH'
 
 #########DO NOT MODIFY BELOW THIS LINE##########
 kpi_metrics:
