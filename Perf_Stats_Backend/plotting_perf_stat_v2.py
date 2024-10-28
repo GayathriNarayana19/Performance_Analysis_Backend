@@ -18,39 +18,26 @@ for file in csv_files:
     data.append(df)
 '''
 
-# Function to dynamically calculate wrap width based on the label length
 def dynamic_wrap_width(label, max_width=40, min_width=20):
-    """
-    Calculate dynamic wrap width based on label length, with limits on max/min width.
-    """
     return min(max_width, max(len(label) // 2, min_width))
 
-# Function to wrap after the newline '\n' and split at the '-' (keeping the dash)
 def wrap_after_newline_and_dash(label):
     if 'bound' in label:
         if '\n' in label:
-            # Split at the first '\n'
             first_part, second_part = label.split('\n', 1)
 
-            # Calculate dynamic wrap width for the second part
             wrap_width = dynamic_wrap_width(second_part)
 
-            # Check if the second part contains '-' for splitting
             if '-' in second_part:
-                # Split at the first '-'
                 before_dash, after_dash = second_part.split('-', 1)
                 
-                # Wrap both parts (before and after the '-')
                 before_dash_wrapped = textwrap.fill(before_dash, wrap_width)
                 after_dash_wrapped = textwrap.fill(after_dash, wrap_width)
                 
-                # Recombine with the '-' and wrap both parts
                 second_part_wrapped = f'{before_dash_wrapped} - {after_dash_wrapped}'
             else:
-                # If no '-', just wrap the second part
                 second_part_wrapped = textwrap.fill(second_part, wrap_width)
             
-            # Combine the first part with the wrapped second part
             return f'{first_part}\n{second_part_wrapped}'
     return label    
 #Calculate percentage difference between max and min bars in a cluster. 
@@ -73,9 +60,9 @@ def filter_and_plot_miss(plot_num, data, output_dir, scenario, context):
 
     # Seaborn color palette
     try:
-        sns_palette = sns.color_palette("Set2")  # A good balanced palette
+        sns_palette = sns.color_palette("Set2")  
         #colors = [sns_palette[2], sns_palette[0]]  # Choose green and blue from the palette
-        colors = [sns_palette[1],sns_palette[2],sns_palette[0],sns_palette[6]]  # Choose green and blue from the palette
+        colors = [sns_palette[1],sns_palette[2],sns_palette[0],sns_palette[6]]  
         colors = colors[:len(filtered_data)]
         #colors = sns.color_palette("muted", len(filtered_data))  # Ensure 'colors' is defined
 #        colors = ['#228B22', '#8B4513']  # Green and brown hex codes
