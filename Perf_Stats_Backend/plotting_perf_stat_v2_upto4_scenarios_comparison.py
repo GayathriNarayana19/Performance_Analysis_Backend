@@ -62,9 +62,8 @@ def filter_and_plot_miss(plot_num, data, output_dir, scenario, context):
     try:
         sns_palette = sns.color_palette("Set2")  
         #colors = [sns_palette[2], sns_palette[0]]  # Choose green and blue from the palette
-        ####colors = [sns_palette[1],sns_palette[2],sns_palette[0],sns_palette[6]]  
-        ####colors = colors[:len(filtered_data)]
-        colors = sns.color_palette("Set2", n_colors=len(filtered_data))
+        colors = [sns_palette[1],sns_palette[2],sns_palette[0],sns_palette[6]]  
+        colors = colors[:len(filtered_data)]
         #colors = sns.color_palette("muted", len(filtered_data))  # Ensure 'colors' is defined
 #        colors = ['#228B22', '#8B4513']  # Green and brown hex codes
     except Exception as e:
@@ -89,7 +88,7 @@ def filter_and_plot_miss(plot_num, data, output_dir, scenario, context):
     # Array of indices for the y-coordinates of bars
   #  indices = np.arange(len(filtered_data[0]))
     indices = np.arange(len(filtered_data[0]['Graph_Xlabel']))
-    bar_width = 0.12 
+    bar_width = 0.2 
     #Hardcoded jor jupyter
     #ue_values = ['CPU51', 'CPU55']
     # Use ax.barh for horizontal bars & use height instead of width
@@ -134,9 +133,7 @@ def filter_and_plot_miss(plot_num, data, output_dir, scenario, context):
 
         metric_names.append(metric_name)
 #Seaborn changes
-    ####colors = sns.color_palette("muted", len(filtered_data))  # Custom palette
-    colors = sns.color_palette("Set2", n_colors=len(filtered_data))
-    ####colors = sns.color_palette("tab10", n_colors=len(filtered_data))
+    colors = sns.color_palette("muted", len(filtered_data))  # Custom palette
     formatted_title = f'Bar Plot for "miss" Metrics (Excluding "TLB")- {context}'
     ax.set_ylabel('Metrics', fontsize=14, weight='bold')
     ax.set_xlabel('Rate in Percentage', fontsize=14, weight='bold')
@@ -194,9 +191,8 @@ def filter_and_plot_tlb(plot_num, data, output_dir, scenario, context):
     try:
         sns_palette = sns.color_palette("Set2")  # A good balanced palette
       #  colors = [sns_palette[2], sns_palette[0]]  # Choose green and blue from the palette
-        ####colors = [sns_palette[1],sns_palette[2],sns_palette[0],sns_palette[6]]  # Choose green and blue from the palette
-        ####colors = colors[:len(filtered_data)]
-        colors = sns.color_palette("Set2", n_colors=len(filtered_data))
+        colors = [sns_palette[1],sns_palette[2],sns_palette[0],sns_palette[6]]  # Choose green and blue from the palette
+        colors = colors[:len(filtered_data)]
         #colors = sns.color_palette("muted", len(filtered_data))  # Ensure 'colors' is defined
 #        colors = ['#228B22', '#8B4513']  # Green and brown hex codes
     except Exception as e:
@@ -212,7 +208,7 @@ def filter_and_plot_tlb(plot_num, data, output_dir, scenario, context):
     #fig, ax = plt.subplots(figsize=(16, len(filtered_data[0]) * 0.6))  # Increase height based on number of metrics
     ax.set_prop_cycle('color', colors) 
     # Adjust spacing
-    bar_width = 0.12
+    bar_width = 0.2
 
     # Array of indices for the y-coordinates of bars
     indices = np.arange(len(filtered_data[0]))
@@ -259,9 +255,8 @@ def filter_and_plot_tlb(plot_num, data, output_dir, scenario, context):
             if value < min_values[j]:
                 min_values[j] = value
         metric_names.append(metric_name)
-    
-    colors = sns.color_palette("Set2", n_colors=len(filtered_data))
-    ####colors = sns.color_palette("muted", len(filtered_data))  # Custom palette
+
+    colors = sns.color_palette("muted", len(filtered_data))  # Custom palette
     formatted_title = f'Bar Plot for "TLB" Metrics - {context}'
     ax.set_ylabel('Metrics', fontsize=14, weight='bold')
     ax.set_xlabel('Rate in Percentage', fontsize=14, weight='bold')
@@ -304,10 +299,8 @@ def filter_and_plot(key_string, plot_num, data, output_dir, scenario, context):
     try:
         sns_palette = sns.color_palette("Set2")  # A good balanced palette
         #colors = [sns_palette[2], sns_palette[0]]  # Choose green and blue from the palette
-        ####colors = [sns_palette[1],sns_palette[2],sns_palette[0],sns_palette[6]]  # Choose green and blue from the palette
-        ####colors = colors[:len(filtered_data)]
-        ####colors = sns.color_palette("tab10", n_colors=len(filtered_data))
-        colors = sns.color_palette("Set2", n_colors=len(filtered_data))
+        colors = [sns_palette[1],sns_palette[2],sns_palette[0],sns_palette[6]]  # Choose green and blue from the palette
+        colors = colors[:len(filtered_data)]
         #colors = sns.color_palette("muted", len(filtered_data))  # Ensure 'colors' is defined
 #        colors = ['#228B22', '#8B4513']  # Green and brown hex codes
     except Exception as e:
@@ -352,9 +345,7 @@ def filter_and_plot(key_string, plot_num, data, output_dir, scenario, context):
         #fig, ax = plt.subplots(figsize=(16, len(filtered_data[0]) * 0.6))  # Increase height based on number of metrics
     ax.set_prop_cycle('color', colors)
 
-    bar_width = 0.12
-    if key_string == 'rate_per_instruction' or key_string == 'rate_over_time':
-        bar_width = 0.1
+    bar_width = 0.2
     indices = np.arange(len(filtered_data[0]))
 
     for i, df in enumerate(filtered_data):
@@ -542,8 +533,7 @@ def filter_and_plot_Name_n(plot_num, data, output_dir, scenario, context, num, k
     # Seaborn color palette
       try:
         sns_palette = sns.color_palette("Set2")  # A good balanced palette
-        #colors = sns.color_palette("Set2", n_colors=len(filtered_data))
-        ####colors = [sns_palette[1],sns_palette[2],sns_palette[0],sns_palette[6]]  # Choose green and blue from the palette
+        colors = [sns_palette[1],sns_palette[2],sns_palette[0],sns_palette[6]]  # Choose green and blue from the palette
         #colors = sns.color_palette("muted", len(filtered_data))  # Ensure 'colors' is defined
 #        colors = ['#228B22', '#8B4513']  # Green and brown hex codes
       except Exception as e:
@@ -563,7 +553,6 @@ def filter_and_plot_Name_n(plot_num, data, output_dir, scenario, context, num, k
         for key in key_strings:
           filtered_data = [df[df[f'Name_{num}'].str.contains(key)] for df in data]
           formatted_title = f'Bar Plot for Metrics with "{key}"- {context}'
-      colors = sns.color_palette("Set2", n_colors=len(filtered_data))    
       for df in filtered_data:
             df[f'Event_{num}'] = pd.to_numeric(df[f'Event_{num}'], errors='coerce')
       #for key in key_strings:
@@ -572,8 +561,8 @@ def filter_and_plot_Name_n(plot_num, data, output_dir, scenario, context, num, k
 
         #filtered_data = [df[df['Name_1'].str.contains(key)] for df in data]
         # Deduplicate based on 'Name_1' and keep only the first occurrence
-      #colors = sns.color_palette("Set2", n_colors=len(filtered_data))
-      ####colors = colors[:len(filtered_data)]
+      
+      colors = colors[:len(filtered_data)]
       for i, df in enumerate(filtered_data):
           df.drop_duplicates(subset=[f'Name_{num}'], keep='first', inplace=True)
       #to avoid errors when event is missing
@@ -584,9 +573,8 @@ def filter_and_plot_Name_n(plot_num, data, output_dir, scenario, context, num, k
       #print(f"Filtered Data for Key {key}:")
       plt.figure(plot_num)
       fig, ax = plt.subplots(figsize=(20, 16))
-      #colors = sns.color_palette("Set2", n_colors=len(filtered_data))
       ax.set_prop_cycle('color', colors)
-      bar_width = 0.13  
+      bar_width = 0.2  
       indices = np.arange(len(filtered_data[0]))
       #ue_values = ['CPU51', 'CPU55']
       
@@ -641,19 +629,7 @@ def filter_and_plot_Name_n(plot_num, data, output_dir, scenario, context, num, k
                   min_values[j] = value
 
           metric_names.append(metric_name)
-          bars = ax.barh(
-            indices + i * bar_width,
-            df[f'Event_{num}'],
-            height=bar_width,
-            color=colors[i],  
-            label=f'{scenario[i]}',
-            alpha=0.8,
-            linewidth=1.5,
-            capstyle='round'
-        )
-
-      #colors = sns.color_palette("Set2", n_colors=len(filtered_data))    
-      ####colors = sns.color_palette("muted", len(filtered_data)) 
+      colors = sns.color_palette("muted", len(filtered_data)) 
       #formatted_title = f'Bar Plot for Metrics with "{key}"'
       ax.set_ylabel(f'Event_{num}', fontsize=14, weight = 'bold')
       ax.set_xlabel('Values', fontsize=14, weight = 'bold')  # Adjust x-axis label to match "Event_1" column
@@ -677,21 +653,7 @@ def filter_and_plot_Name_n(plot_num, data, output_dir, scenario, context, num, k
           
           
       ax.legend()
-      # Remove duplicate labels in legend
-      # Remove duplicate entries in the legend
-      handles, labels = ax.get_legend_handles_labels()
-      unique = dict(zip(labels, handles))  # Preserves order: first occurrence only
-
-      custom_legend = ax.legend(
-          handles=list(unique.values()),
-          labels=list(unique.keys()),
-          title="Cores",
-          loc='upper right',
-          fontsize=12,
-          title_fontsize=14,
-          frameon=True
-      )
-      #custom_legend = ax.legend(loc='upper right', title="Cores",fontsize=12, title_fontsize=14, frameon=True)   
+      custom_legend = ax.legend(loc='upper right', title="Cores",fontsize=12, title_fontsize=14, frameon=True)   
       #custom_legend = ax.legend(loc='upper right', title="3 CELL DIFFERENT UE CASES")
       ax.add_artist(custom_legend)
       plt.tight_layout()
