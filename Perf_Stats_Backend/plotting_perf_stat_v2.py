@@ -796,6 +796,7 @@ def main():
       #plot_number = plot_number + 1
     filter_and_plot('retiring', 23, data, args.op_dir, args.scenario, args.context)
     filter_and_plot('bound', 24, data, args.op_dir, args.scenario, args.context)
+    filter_and_plot('bad_speculation', 25, data, args.op_dir, args.scenario, args.context)
       #data_per_core = []'''
     output_pdf_path = os.path.join(args.op_dir, 'merged_output.pdf')
     merge_pngs_to_pdf(args.op_dir, output_pdf_path)
