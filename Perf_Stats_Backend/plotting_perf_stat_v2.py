@@ -295,7 +295,15 @@ def filter_and_plot_tlb(plot_num, data, output_dir, scenario, context):
 def filter_and_plot(key_string, plot_num, data, output_dir, scenario, context):
    
     filtered_data = [df[df['Metrics'].str.contains(key_string)] for df in data]
-    short_labels = [label.split('=')[0] + '\n' + label.split('=')[1] for label in filtered_data[0]['Graph_Xlabel']]
+    if key_string == 'bad_speculation':
+        short_labels = [
+            'bad_speculation =\n'
+            '100 * ((1 - OP_RETIRED / OP_SPEC)\n'
+            '* (1 - STALL_SLOT / (CPU_CYCLES * 8))\n'
+            '+ BR_MIS_PRED * 4 / CPU_CYCLES)'
+        ]
+    else:
+        short_labels = [label.split('=')[0] + '\n' + label.split('=')[1] for label in filtered_data[0]['Graph_Xlabel']]
     if len(filtered_data) == 0:
         print("No data to plot.")
         return
